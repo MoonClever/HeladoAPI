@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">HeladoAPI</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sabor_string">Sabor</string>
+    <string name="idhelado_string">idHelado</string>
+    <string name="calories_string">Calories</string>
+    <string name="description_string">Description</string>
+    <string name="popularity_string">Popularity</string>
+    <string name="vegan_string">Vegan?</string>
+    <string name="respuesta_recibida">Respuesta recibida: %1$s</string>
+    <string name="id_recibido_string">Id recibido: %1$s</string>
+    <string name="error_conexion_string">Error en la conexión: %1$s</string>
+    <string name="calorias_binding_string">Calorias: %1$s</string>
+    <string name="popularity_rank_string">Ranking de popularidad: %1$s</string>
+    <string name="opcion_vegana_string">Opcion Vegana: %1$s</string>
+</resources>
