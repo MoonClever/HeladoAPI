@@ -1,11 +1,13 @@
 package com.jordicuevas.heladoapi.ui.fragments
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.MediaController
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.jordicuevas.heladoapi.R
@@ -32,9 +34,13 @@ class HeladoDetailFragment : Fragment() {
     private var helado_id: String? = null
 
     private lateinit var repository: HeladoRepository
+    private lateinit var mediaController: MediaController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        mediaController = MediaController(requireContext())
+
         arguments?.let {
             helado_id = it.getString(HELADO_ID)
 
@@ -78,8 +84,11 @@ class HeladoDetailFragment : Fragment() {
 
                         val vegan = response.body()?.vegan.toString()
 
+                        val videoURL = response.body()?.video.toString()
+
                         binding.apply {
                             pbLoading.visibility = View.INVISIBLE
+                            binding.tvErrorDetail.visibility = View.INVISIBLE
 
                             tvSabor.text = response.body()?.name
 
@@ -95,6 +104,11 @@ class HeladoDetailFragment : Fragment() {
                                 .load(response.body()?.image)
                                 .into(ivImage)
 
+
+                            videoView.setMediaController(mediaController)
+                            videoView.setVideoURI(Uri.parse(videoURL))
+                            mediaController.setAnchorView(videoView)
+
                         }
 
                     }
@@ -102,6 +116,7 @@ class HeladoDetailFragment : Fragment() {
                     override fun onFailure(p0: Call<HeladoDetailDto>, p1: Throwable) {
                         //Manejar el error sin conexión
                         binding.pbLoading.visibility = View.INVISIBLE
+                        binding.tvErrorDetail.visibility = View.VISIBLE
                     }
 
                 })

@@ -13,6 +13,7 @@
         android:indeterminateDrawable="@drawable/loading_anim"
         android:indeterminateDuration="1500"
         android:layout_gravity="center"
+        android:visibility="invisible"
         />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -21,5 +22,18 @@
         android:layout_height="match_parent">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/tvErrorList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ubuntu"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:text="@string/tvErrorList"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:visibility="invisible"
+        />
 
 </FrameLayout>

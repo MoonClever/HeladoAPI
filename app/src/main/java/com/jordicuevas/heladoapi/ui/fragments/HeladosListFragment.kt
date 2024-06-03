@@ -1,6 +1,8 @@
 package com.jordicuevas.heladoapi.ui.fragments
 
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.provider.MediaStore.Audio.Media
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,14 +27,15 @@ import retrofit2.Response
 class HeladosListFragment : Fragment() {
 
     private var _binding: FragmentHeladosListBinding? = null
-
     private val binding get() = _binding!!
 
     private lateinit var repository: HeladoRepository
 
+    private lateinit var mP: MediaPlayer
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        mP = MediaPlayer.create(requireContext(), R.raw.helado_sonido)
     }
 
     override fun onCreateView(
@@ -64,6 +67,7 @@ class HeladosListFragment : Fragment() {
                 ) {
 
                     binding.pbLoading.visibility = View.GONE
+                    binding.tvErrorList.visibility = View.INVISIBLE
 
                     Log.d(Constants.LOGTAG, getString(R.string.respuesta_recibida, response.body()))
 
@@ -71,6 +75,7 @@ class HeladosListFragment : Fragment() {
                         binding.rvHelados.apply {
                             layoutManager = LinearLayoutManager(requireContext())
                             adapter = HeladoAdapter(helados) { helado ->
+                                mP.start()
                                 requireActivity().supportFragmentManager.beginTransaction()
                                     .replace(
                                         R.id.fragment_container,
@@ -88,12 +93,13 @@ class HeladosListFragment : Fragment() {
                 override fun onFailure(p0: Call<List<HeladoDto>>, error: Throwable) {
                     //Manejo del error
                     binding.pbLoading.visibility = View.GONE
+                    binding.tvErrorList.visibility = View.VISIBLE
 
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.error_conexion_string, error.message),
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        requireContext(),
+//                        getString(R.string.error_conexion_string, error.message),
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                 }
 
 

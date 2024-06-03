@@ -13,4 +13,6 @@
     <string name="calorias_binding_string">Calorias: %1$s</string>
     <string name="popularity_rank_string">Ranking de popularidad: %1$s</string>
     <string name="opcion_vegana_string">Opcion Vegana: %1$s</string>
+    <string name="errorDetailStr">Error al cargar datos. \nCompruebe su conexión</string>
+    <string name="tvErrorList">No se pueden cargar los datos. \nCompruebe su conexión.</string>
 </resources>

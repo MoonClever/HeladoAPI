@@ -36,6 +36,18 @@
 
 
                     <TextView
+                        android:id="@+id/tvErrorDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ubuntu"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        tools:text="@string/errorDetailStr"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:visibility="invisible"/>
+
+                    <TextView
                         android:id="@+id/tvSabor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -107,7 +119,19 @@
                         android:textSize="20sp"
                         tools:text="@string/vegan_string" />
 
+                    <VideoView
+                        android:id="@+id/videoView"
+                        android:layout_width="320dp"
+                        android:layout_height="240dp"
+                        android:layout_gravity="center"
+                        />
+
+
+
+
                 </LinearLayout>
+
+
             </ScrollView>
 
             <ProgressBar

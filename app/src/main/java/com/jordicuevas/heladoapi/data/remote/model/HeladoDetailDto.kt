@@ -20,6 +20,9 @@ data class HeladoDetailDto(
     var popularity : Int?,
 
     @SerializedName("Vegan_Option")
-    var vegan : Boolean?
+    var vegan : Boolean?,
+
+    @SerializedName("video")
+    var video: String?
 
 )
