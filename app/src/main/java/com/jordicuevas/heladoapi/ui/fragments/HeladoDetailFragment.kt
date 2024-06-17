@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.MediaController
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.jordicuevas.heladoapi.R
 import com.jordicuevas.heladoapi.application.HeladosRFApp
 import com.jordicuevas.heladoapi.data.HeladoRepository
@@ -21,12 +23,19 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
 private const val HELADO_ID = "param1"
 
-class HeladoDetailFragment : Fragment() {
+class HeladoDetailFragment : Fragment(), OnMapReadyCallback {
 
+    //Maps
+    private lateinit var map: GoogleMap
+
+    //Binding
     private var _binding: FragmentHeladoDetailBinding? = null
 
     private val binding get() = _binding!!
@@ -63,6 +72,10 @@ class HeladoDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //Map
+        binding.map.onCreate(savedInstanceState)
+        binding.map.getMapAsync(this)
 
         //Programar la conexión
         repository = (requireActivity().application as HeladosRFApp).repository
@@ -109,6 +122,13 @@ class HeladoDetailFragment : Fragment() {
                             videoView.setVideoURI(Uri.parse(videoURL))
                             mediaController.setAnchorView(videoView)
 
+                            createMarker(
+                                response.body()?.latitud!!,
+                                response.body()?.longitud!!,
+                                tvSabor.text.toString(),
+                                tvDesc.text.toString()
+                            )
+
                         }
 
                     }
@@ -122,6 +142,30 @@ class HeladoDetailFragment : Fragment() {
                 })
             }
         }
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        //El mapa está listo
+        map = googleMap
+        //createMarker(latitude, longitude, binding.tvNombrePerro.text.toString(), binding.tvDesc.text.toString())
+    }
+
+    private fun createMarker(lat: Double, long: Double, titulo: String, snippet: String){
+        val coordinates = LatLng(lat, long)
+
+        val marker = MarkerOptions()
+            .position(coordinates)
+            .title(titulo)
+            .snippet(snippet)
+            .icon(BitmapDescriptorFactory.fromResource(R.drawable.la_michoacana_logo))
+
+        map.addMarker(marker)
+
+        map.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(coordinates, 18f),
+            1000,
+            null
+        )
     }
 
     companion object {

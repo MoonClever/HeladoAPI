@@ -23,6 +23,12 @@ data class HeladoDetailDto(
     var vegan : Boolean?,
 
     @SerializedName("video")
-    var video: String?
+    var video: String?,
+
+    @SerializedName("latitud")
+    var latitud: Double?,
+
+    @SerializedName("longitud")
+    var longitud: Double?
 
 )
