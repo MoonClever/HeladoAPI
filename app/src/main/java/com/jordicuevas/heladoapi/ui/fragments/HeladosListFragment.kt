@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.jordicuevas.heladoapi.R
 import com.jordicuevas.heladoapi.application.HeladosRFApp
 import com.jordicuevas.heladoapi.data.HeladoRepository
@@ -33,6 +34,8 @@ class HeladosListFragment : Fragment() {
 
     private lateinit var mP: MediaPlayer
 
+    private lateinit var firebaseAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mP = MediaPlayer.create(requireContext(), R.raw.helado_sonido)
@@ -54,6 +57,20 @@ class HeladosListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //Firebase
+        firebaseAuth = FirebaseAuth.getInstance()
+
+        binding.logOutBtn.setOnClickListener{
+            firebaseAuth.signOut()
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(
+                    R.id.fragment_container,
+                    LoginFragment()
+                )
+                .addToBackStack(null)
+                .commit()
+        }
 
         repository = (requireActivity().application as HeladosRFApp).repository
 
